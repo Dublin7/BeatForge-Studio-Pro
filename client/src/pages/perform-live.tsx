@@ -103,14 +103,22 @@ export default function PerformLive() {
 
   const handleClipTrigger = (trackIndex: number, sceneIndex: number) => {
     const clip = tracks[trackIndex].clips[sceneIndex];
+    const track = tracks[trackIndex];
     
     if (!clip) {
-      // Empty slot - create new clip
-      setSelectedClip({ trackIndex, sceneIndex });
+      // Empty slot - allow creating new MIDI clip
+      if (track.type === 'midi') {
+        setSelectedClip({ trackIndex, sceneIndex });
+      }
       return;
     }
 
-    // Toggle clip playback
+    // For MIDI clips, select for editing
+    if (clip.type === 'midi' && track.type === 'midi') {
+      setSelectedClip({ trackIndex, sceneIndex });
+    }
+
+    // Also toggle clip playback
     setTracks(prevTracks => {
       const newTracks = [...prevTracks];
       const track = { ...newTracks[trackIndex] };
