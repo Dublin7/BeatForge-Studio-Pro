@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Play, Wand2, Sliders, Music2, Zap, Cloud, Smartphone, Sparkles } from "lucide-react";
+import { Play, Wand2, Sliders, Music2, Zap, Cloud, Smartphone, Sparkles, Scissors } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -69,10 +69,10 @@ export default function Home() {
       {/* Features Grid */}
       <section className="py-24 px-8 max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-semibold text-center mb-16" data-testid="text-features-title">
-          Three Powerful Tools, One Platform
+          Complete Production Suite, One Platform
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* AI Beat Generator Card */}
           <Card className="hover-elevate transition-all duration-300 group" data-testid="card-feature-ai-generator">
             <CardContent className="p-8">
@@ -176,6 +176,42 @@ export default function Home() {
               <Link href="/mixer">
                 <Button variant="outline" className="w-full" data-testid="button-open-mixer">
                   Open Mixer
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* AI Audio Editor Card */}
+          <Card className="hover-elevate transition-all duration-300 group" data-testid="card-feature-audio-editor">
+            <CardContent className="p-8">
+              <div className="w-14 h-14 rounded-md bg-chart-4/20 flex items-center justify-center mb-6 group-hover:bg-chart-4/30 transition-colors">
+                <Scissors className="w-7 h-7 text-chart-4" />
+              </div>
+              
+              <h3 className="text-2xl font-semibold mb-4">AI Audio Editor</h3>
+              <p className="text-muted-foreground mb-6">
+                Edit, trim, and manipulate audio with AI-powered tools. 
+                Precision editing meets intelligent automation.
+              </p>
+              
+              <ul className="space-y-2 text-sm text-muted-foreground mb-6">
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-chart-4" />
+                  Waveform visualization
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-chart-4" />
+                  AI-powered auto-trim
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-chart-4" />
+                  Cut, split & merge tools
+                </li>
+              </ul>
+
+              <Link href="/audio-editor">
+                <Button variant="outline" className="w-full" data-testid="button-open-audio-editor">
+                  Open Audio Editor
                 </Button>
               </Link>
             </CardContent>

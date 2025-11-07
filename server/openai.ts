@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import pLimit from "p-limit";
-import pRetry from "p-retry";
+import pRetry, { AbortError } from "p-retry";
 import { BeatGeneratorParams, AIBeatResponse, DrumTrack } from "@shared/schema";
 
 // Following the javascript_openai_ai_integrations blueprint
@@ -132,8 +132,8 @@ Rules:
           if (isRateLimitError(error)) {
             throw error; // Rethrow to trigger p-retry
           }
-          // For non-rate-limit errors, throw immediately (don't retry)
-          throw new pRetry.AbortError(error);
+          // For non-rate-limit errors, abort retries immediately
+          throw new AbortError(error.message || String(error));
         }
       },
       {
@@ -243,5 +243,21 @@ Rules:
         parameters: params
       }
     };
+  }
+}
+
+export async function generateTextToSpeech(text: string, voice: string = "alloy"): Promise<Buffer> {
+  try {
+    const mp3 = await openai.audio.speech.create({
+      model: "tts-1",
+      voice: voice as any,
+      input: text,
+    });
+
+    const buffer = Buffer.from(await mp3.arrayBuffer());
+    return buffer;
+  } catch (error) {
+    console.error('Text-to-speech error:', error);
+    throw error;
   }
 }

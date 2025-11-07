@@ -8,6 +8,7 @@ import Home from "@/pages/home";
 import BeatGenerator from "@/pages/beat-generator";
 import Sequencer from "@/pages/sequencer";
 import Mixer from "@/pages/mixer";
+import AudioEditor from "@/pages/audio-editor";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/beat-generator" component={BeatGenerator} />
       <Route path="/sequencer" component={Sequencer} />
       <Route path="/mixer" component={Mixer} />
+      <Route path="/audio-editor" component={AudioEditor} />
       <Route component={NotFound} />
     </Switch>
   );
