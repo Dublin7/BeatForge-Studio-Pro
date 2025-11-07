@@ -9,6 +9,7 @@ import BeatGenerator from "@/pages/beat-generator";
 import Sequencer from "@/pages/sequencer";
 import Mixer from "@/pages/mixer";
 import AudioEditor from "@/pages/audio-editor";
+import PerformLive from "@/pages/perform-live";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/sequencer" component={Sequencer} />
       <Route path="/mixer" component={Mixer} />
       <Route path="/audio-editor" component={AudioEditor} />
+      <Route path="/perform-live" component={PerformLive} />
       <Route component={NotFound} />
     </Switch>
   );

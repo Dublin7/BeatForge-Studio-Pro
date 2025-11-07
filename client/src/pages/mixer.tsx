@@ -8,7 +8,8 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { LevelMeter } from "@/components/level-meter";
 import { SpectrumAnalyzer } from "@/components/spectrum-analyzer";
-import { MixerChannel, Effect } from "@shared/schema";
+import { XYPad } from "@/components/xy-pad";
+import { MixerChannel, Effect, XYPadPosition } from "@shared/schema";
 import { Badge } from "@/components/ui/badge";
 import {
   Select,
@@ -55,6 +56,7 @@ export default function Mixer() {
   const [masterVolume, setMasterVolume] = useState(0.8);
   const [isPlaying, setIsPlaying] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<number>(0);
+  const [xyPosition, setXyPosition] = useState<XYPadPosition>({ x: 0.5, y: 0.5 });
 
   const handleVolumeChange = (index: number, volume: number) => {
     setChannels(prev => prev.map((ch, i) =>
@@ -413,7 +415,7 @@ export default function Mixer() {
             </CardContent>
           </Card>
 
-          {/* Spectrum Analyzer Placeholder */}
+          {/* Spectrum Analyzer */}
           <Card data-testid="card-spectrum">
             <CardHeader>
               <CardTitle className="text-base">Spectrum Analyzer</CardTitle>
@@ -423,6 +425,22 @@ export default function Mixer() {
               <p className="text-xs text-muted-foreground mt-2 text-center">
                 Real-time frequency analysis • Low (purple) to High (cyan)
               </p>
+            </CardContent>
+          </Card>
+
+          {/* FX Modulation Pad */}
+          <Card data-testid="card-fx-pad">
+            <CardHeader>
+              <CardTitle className="text-base">FX Modulation Pad</CardTitle>
+            </CardHeader>
+            <CardContent className="flex justify-center pb-16">
+              <XYPad
+                position={xyPosition}
+                onPositionChange={setXyPosition}
+                parameter1Label="Filter Frequency"
+                parameter2Label="Resonance"
+                size={300}
+              />
             </CardContent>
           </Card>
         </div>

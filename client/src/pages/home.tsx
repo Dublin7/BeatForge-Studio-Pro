@@ -72,7 +72,7 @@ export default function Home() {
           Complete Production Suite, One Platform
         </h2>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
           {/* AI Beat Generator Card */}
           <Card className="hover-elevate transition-all duration-300 group" data-testid="card-feature-ai-generator">
             <CardContent className="p-8">
@@ -212,6 +212,42 @@ export default function Home() {
               <Link href="/audio-editor">
                 <Button variant="outline" className="w-full" data-testid="button-open-audio-editor">
                   Open Audio Editor
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Perform Live Card */}
+          <Card className="hover-elevate transition-all duration-300 group" data-testid="card-feature-perform-live">
+            <CardContent className="p-8">
+              <div className="w-14 h-14 rounded-md bg-chart-5/20 flex items-center justify-center mb-6 group-hover:bg-chart-5/30 transition-colors">
+                <Play className="w-7 h-7 text-chart-5" />
+              </div>
+              
+              <h3 className="text-2xl font-semibold mb-4">Perform Live</h3>
+              <p className="text-muted-foreground mb-6">
+                Trigger clips and create melodies in real-time. Session view meets 
+                piano roll for dynamic live performances.
+              </p>
+              
+              <ul className="space-y-2 text-sm text-muted-foreground mb-6">
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-chart-5" />
+                  Clip launcher grid
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-chart-5" />
+                  Piano roll editor
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-chart-5" />
+                  Real-time triggering
+                </li>
+              </ul>
+
+              <Link href="/perform-live">
+                <Button variant="outline" className="w-full" data-testid="button-launch-perform-live">
+                  Launch Performer
                 </Button>
               </Link>
             </CardContent>

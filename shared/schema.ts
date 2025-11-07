@@ -110,3 +110,65 @@ export interface AIBeatResponse {
     parameters: BeatGeneratorParams;
   };
 }
+
+// Perform Live / Clip Launcher Types
+export interface PianoNote {
+  pitch: number;      // MIDI note number (0-127)
+  start: number;      // Start time in beats
+  duration: number;   // Duration in beats
+  velocity: number;   // 0-1
+}
+
+export interface Clip {
+  id: string;
+  name: string;
+  type: 'audio' | 'midi' | 'pattern';
+  color: string;
+  // For MIDI clips
+  notes?: PianoNote[];
+  // For drum pattern clips
+  pattern?: DrumTrack[];
+  // For audio clips
+  audioUrl?: string;
+  // Playback settings
+  length: number;     // Length in beats
+  loop: boolean;
+  isPlaying: boolean;
+  volume: number;     // 0-1
+}
+
+export interface ClipSlot {
+  trackIndex: number;
+  sceneIndex: number;
+  clip: Clip | null;
+}
+
+export interface Scene {
+  id: string;
+  name: string;
+  color: string;
+}
+
+export interface PerformTrack {
+  id: string;
+  name: string;
+  type: 'audio' | 'midi' | 'drum';
+  color: string;
+  volume: number;
+  pan: number;
+  solo: boolean;
+  mute: boolean;
+  clips: (Clip | null)[]; // Array indexed by scene
+}
+
+// XY Pad Types for FX Modulation
+export interface XYPadPosition {
+  x: number; // 0-1
+  y: number; // 0-1
+}
+
+export interface FXModulation {
+  parameter1: string; // e.g., 'filterFrequency'
+  parameter2: string; // e.g., 'resonance'
+  position: XYPadPosition;
+}
