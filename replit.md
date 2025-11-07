@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-BeatForge Studio is a comprehensive browser-based music production platform that combines AI-powered beat generation, advanced step sequencing, and professional-grade mixing tools. All audio processing runs locally in the browser using the Web Audio API and Tone.js framework.
+BeatForge Studio is a comprehensive browser-based music production platform that combines AI-powered beat generation, advanced step sequencing, professional mixing tools, and a full-featured audio editor with AI capabilities. All audio processing runs locally in the browser using the Web Audio API and Tone.js framework, with AI features powered by OpenAI via Replit AI Integrations.
 
 ## Tech Stack
 
@@ -17,9 +17,10 @@ BeatForge Studio is a comprehensive browser-based music production platform that
 
 ### Backend
 - **Runtime**: Node.js with Express
-- **AI Integration**: OpenAI via Replit AI Integrations (gpt-5 model)
+- **AI Integration**: OpenAI via Replit AI Integrations (gpt-5 for beat generation, tts-1 for text-to-speech)
 - **Data Storage**: In-memory storage with LocalStorage for client-side persistence
 - **Schema Validation**: Zod with Drizzle-Zod
+- **Error Handling**: p-retry with AbortError for non-rate-limit failures, exponential backoff for rate limits
 
 ## Project Structure
 
@@ -30,18 +31,24 @@ BeatForge Studio is a comprehensive browser-based music production platform that
 │   │   │   ├── home.tsx              # Landing page with features showcase
 │   │   │   ├── beat-generator.tsx    # AI-powered drum pattern generator
 │   │   │   ├── sequencer.tsx         # 16-track step sequencer
-│   │   │   └── mixer.tsx             # Professional mixing interface
+│   │   │   ├── mixer.tsx             # Professional mixing interface with spectrum analyzer
+│   │   │   └── audio-editor.tsx      # Audio editor with waveform editing and AI tools
 │   │   ├── components/
 │   │   │   ├── transport-bar.tsx     # Playback controls (play/pause/stop, BPM)
 │   │   │   ├── level-meter.tsx       # Audio level visualization (canvas-based)
-│   │   │   └── grid-visualizer.tsx   # Step sequencer grid component
+│   │   │   ├── grid-visualizer.tsx   # Step sequencer grid component
+│   │   │   ├── waveform-visualizer.tsx # Canvas-based waveform display with selection
+│   │   │   ├── audio-recorder.tsx    # Browser-based audio recording with monitoring
+│   │   │   ├── audio-effects-panel.tsx # Pitch shift, speed, voice effects
+│   │   │   ├── text-to-speech-panel.tsx # OpenAI TTS integration
+│   │   │   └── spectrum-analyzer.tsx # Real-time frequency spectrum visualization
 │   │   ├── App.tsx                   # Main app with routing
 │   │   └── index.css                 # Dark theme configuration
 │   └── index.html                    # HTML entry point with SEO meta tags
 ├── server/
-│   ├── routes.ts                     # API endpoints
+│   ├── routes.ts                     # API endpoints (beat generation, TTS)
 │   ├── storage.ts                    # In-memory data storage
-│   └── openai.ts                     # OpenAI integration (to be created)
+│   └── openai.ts                     # OpenAI integration with retry logic
 ├── shared/
 │   └── schema.ts                     # Shared TypeScript types and Zod schemas
 └── design_guidelines.md              # Design system and UI guidelines
@@ -56,7 +63,7 @@ BeatForge Studio is a comprehensive browser-based music production platform that
 - Quick presets for common styles
 - Pattern export to JSON
 
-**Implementation Status**: ✅ Frontend complete, ⏳ Backend API pending
+**Implementation Status**: ✅ Complete (Frontend + Backend with AI integration)
 
 ### 2. Advanced Sequencer (`/sequencer`)
 - Up to 16 simultaneous tracks
@@ -76,9 +83,25 @@ BeatForge Studio is a comprehensive browser-based music production platform that
 - Pan control per channel
 - Real-time level meters with peak indicators
 - Master bus with dedicated controls
-- Spectrum analyzer placeholder
+- Real-time spectrum analyzer with frequency visualization
 
 **Implementation Status**: ✅ Frontend complete, ⏳ Audio processing integration pending
+
+### 4. Audio Editor (`/audio-editor`)
+- **Waveform Editing**: Canvas-based visualization with zoom and selection support
+- **Edit Tools**: Trim/split/merge operations, AI-powered silence detection
+- **Recording**: Browser-based microphone input with real-time waveform monitoring
+- **Effects Panel**: 
+  - Pitch shifting (-12 to +12 semitones)
+  - Time-stretching (0.25x to 4x speed)
+  - Voice effects (robot, telephone, reverb)
+  - Reverse and speed controls
+- **AI Tools**: 
+  - Text-to-Speech with 6 voice options (OpenAI TTS API)
+  - AI Smart EQ analysis (pending)
+- **File Management**: Drag-and-drop upload, export to WAV/MP3/OGG
+
+**Implementation Status**: ✅ Complete (Waveform, Recording, Effects, TTS)
 
 ## Data Models
 
@@ -144,7 +167,22 @@ Generate AI-powered drum patterns based on genre and parameters.
 }
 ```
 
-**Implementation Status**: ⏳ Pending (Task 2)
+**Implementation Status**: ✅ Complete
+
+### POST `/api/text-to-speech`
+Generate speech audio from text using OpenAI TTS API.
+
+**Request Body**:
+```json
+{
+  "text": "Text to convert to speech (max 4096 chars)",
+  "voice": "alloy" | "echo" | "fable" | "onyx" | "nova" | "shimmer"
+}
+```
+
+**Response**: Binary audio/mpeg stream (MP3 format)
+
+**Implementation Status**: ✅ Complete
 
 ## Design System
 
