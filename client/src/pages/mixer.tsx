@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { LevelMeter } from "@/components/level-meter";
+import { SpectrumAnalyzer } from "@/components/spectrum-analyzer";
 import { MixerChannel, Effect } from "@shared/schema";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -418,11 +419,10 @@ export default function Mixer() {
               <CardTitle className="text-base">Spectrum Analyzer</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-32 bg-muted/30 rounded-md flex items-center justify-center">
-                <p className="text-xs text-muted-foreground" data-testid="text-spectrum-placeholder">
-                  Real-time analysis (coming in integration phase)
-                </p>
-              </div>
+              <SpectrumAnalyzer width={800} height={160} />
+              <p className="text-xs text-muted-foreground mt-2 text-center">
+                Real-time frequency analysis • Low (purple) to High (cyan)
+              </p>
             </CardContent>
           </Card>
         </div>
