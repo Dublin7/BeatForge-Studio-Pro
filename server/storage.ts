@@ -20,7 +20,7 @@ export interface IStorage {
   getProject(id: string): Promise<Project | undefined>;
   getAllProjects(): Promise<Project[]>;
   createProject(project: InsertProject): Promise<Project>;
-  updateProject(id: string, project: Partial<InsertProject>): Promise<Project>;
+  updateProject(id: string, project: Partial<InsertProject>): Promise<Project | undefined>;
   deleteProject(id: string): Promise<void>;
 }
 
@@ -63,13 +63,13 @@ export class DatabaseStorage implements IStorage {
     return project;
   }
 
-  async updateProject(id: string, updates: Partial<InsertProject>): Promise<Project> {
+  async updateProject(id: string, updates: Partial<InsertProject>): Promise<Project | undefined> {
     const [project] = await db
       .update(projects)
       .set({ ...updates, updatedAt: new Date() })
       .where(eq(projects.id, id))
       .returning();
-    return project;
+    return project || undefined;
   }
 
   async deleteProject(id: string): Promise<void> {

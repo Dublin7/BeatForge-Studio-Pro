@@ -168,6 +168,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const updates = insertProjectSchema.partial().parse(req.body);
       const project = await storage.updateProject(req.params.id, updates);
+      if (!project) {
+        return res.status(404).json({ error: 'Project not found' });
+      }
       res.json(project);
     } catch (error) {
       console.error('Failed to update project:', error);
