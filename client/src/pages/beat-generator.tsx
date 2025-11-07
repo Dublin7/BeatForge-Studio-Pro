@@ -83,10 +83,20 @@ export default function BeatGenerator() {
       { genre, complexity, swing, density, variation },
       {
         onSuccess: (data) => {
+          console.log('Beat generation response:', data);
+          
+          // Validate response structure
+          if (!data || !data.pattern || !Array.isArray(data.pattern.tracks)) {
+            console.error('Invalid response structure:', data);
+            alert('Received invalid response from server. Please try again.');
+            return;
+          }
+
           setTracks(data.pattern.tracks);
           localStorage.setItem('beatforge-last-pattern', JSON.stringify(data.pattern));
         },
         onError: (error) => {
+          console.error('Beat generation error:', error);
           alert(error instanceof Error ? error.message : 'Failed to generate beat. Please try again.');
         }
       }
