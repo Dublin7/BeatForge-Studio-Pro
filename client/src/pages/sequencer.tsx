@@ -14,6 +14,7 @@ import { TransportBar } from "@/components/transport-bar";
 import { GridVisualizer } from "@/components/grid-visualizer";
 import { SequencerTrack } from "@shared/schema";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const INITIAL_TRACKS: SequencerTrack[] = [
   {
@@ -60,6 +61,7 @@ export default function Sequencer() {
   const [bpm, setBpm] = useState(120);
   const [currentStep, setCurrentStep] = useState(-1);
   const [projectName, setProjectName] = useState("Untitled Project");
+  const [tracksToAdd, setTracksToAdd] = useState<number>(4);
 
   // Handler functions (defined before hooks that use them)
   const handleSave = () => {
@@ -180,19 +182,25 @@ export default function Sequencer() {
   };
 
   const handleAddTrack = () => {
-    const newTrack: SequencerTrack = {
-      id: `track-${Date.now()}`,
-      instrument: `Track ${tracks.length + 1}`,
-      notes: [],
-      volume: 0.7,
-      pan: 0,
-      solo: false,
-      mute: false,
-      color: `hsl(${Math.random() * 360}, 70%, 60%)`,
-      effects: [],
-      eq: { low: 0, mid: 0, high: 0, lowPassFreq: 20000, highPassFreq: 20 }
-    };
-    setTracks(prev => [...prev, newTrack]);
+    const newTracks: SequencerTrack[] = [];
+    const startingIndex = tracks.length;
+    
+    for (let i = 0; i < tracksToAdd; i++) {
+      newTracks.push({
+        id: `track-${Date.now()}-${i}`,
+        instrument: `Track ${startingIndex + i + 1}`,
+        notes: [],
+        volume: 0.7,
+        pan: 0,
+        solo: false,
+        mute: false,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+        effects: [],
+        eq: { low: 0, mid: 0, high: 0, lowPassFreq: 20000, highPassFreq: 20 }
+      });
+    }
+    
+    setTracks(prev => [...prev, ...newTracks]);
   };
 
   const handleDeleteTrack = (trackId: string) => {
@@ -309,9 +317,24 @@ export default function Sequencer() {
             <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
               Tracks
             </span>
-            <Button size="sm" variant="ghost" onClick={handleAddTrack} data-testid="button-add-track">
-              <Plus className="w-4 h-4" />
-            </Button>
+            <div className="flex items-center gap-1">
+              <Select value={tracksToAdd.toString()} onValueChange={(val) => setTracksToAdd(Number(val))}>
+                <SelectTrigger className="h-8 w-14 text-xs" data-testid="select-track-count">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                  <SelectItem value="8">8</SelectItem>
+                  <SelectItem value="16">16</SelectItem>
+                  <SelectItem value="32">32</SelectItem>
+                  <SelectItem value="64">64</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button size="sm" variant="ghost" onClick={handleAddTrack} data-testid="button-add-track">
+                <Plus className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
 
           {/* Track List */}
