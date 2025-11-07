@@ -37,3 +37,9 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[agent]
+integrations = ["javascript_openai_ai_integrations:1.0.0"]
+
+[objectStorage]
+defaultBucketID = "replit-objstore-f2919dfd-58bf-4396-9924-d81218e87f04"
