@@ -165,13 +165,14 @@ export function PianoRoll({ notes, onNotesChange, length, zoom }: PianoRollProps
         </div>
 
         {/* Canvas */}
-        <div className="flex-1 overflow-x-auto border border-border rounded-md">
+        <div className="flex-1 overflow-x-auto border border-border rounded-md" style={{ maxHeight: `${height}px` }}>
           <canvas
             ref={canvasRef}
             width={width}
             height={height}
             onClick={handleCanvasClick}
-            className="cursor-crosshair"
+            className="cursor-crosshair block"
+            style={{ pointerEvents: 'auto' }}
             data-testid="piano-roll-canvas"
           />
         </div>
