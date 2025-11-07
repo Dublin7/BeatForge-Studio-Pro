@@ -61,6 +61,25 @@ export default function Sequencer() {
   const [currentStep, setCurrentStep] = useState(-1);
   const [projectName, setProjectName] = useState("Untitled Project");
 
+  // Handler functions (defined before hooks that use them)
+  const handleSave = () => {
+    const project = {
+      name: projectName,
+      bpm,
+      tracks,
+      createdAt: new Date().toISOString()
+    };
+
+    localStorage.setItem('beatforge-project', JSON.stringify(project));
+    
+    // Show toast notification (simple alert for now)
+    const toast = document.createElement('div');
+    toast.textContent = '✓ Project saved';
+    toast.style.cssText = 'position:fixed;top:20px;right:20px;background:hsl(var(--primary));color:white;padding:12px 24px;border-radius:6px;z-index:9999;animation:fadeOut 2s forwards';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2000);
+  };
+
   // Initialize audio engine on mount
   useEffect(() => {
     audioEngine.initialize().catch(console.error);
@@ -178,24 +197,6 @@ export default function Sequencer() {
 
   const handleDeleteTrack = (trackId: string) => {
     setTracks(prev => prev.filter(t => t.id !== trackId));
-  };
-
-  const handleSave = () => {
-    const project = {
-      name: projectName,
-      bpm,
-      tracks,
-      createdAt: new Date().toISOString()
-    };
-
-    localStorage.setItem('beatforge-project', JSON.stringify(project));
-    
-    // Show toast notification (simple alert for now)
-    const toast = document.createElement('div');
-    toast.textContent = '✓ Project saved';
-    toast.style.cssText = 'position:fixed;top:20px;right:20px;background:hsl(var(--primary));color:white;padding:12px 24px;border-radius:6px;z-index:9999;animation:fadeOut 2s forwards';
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2000);
   };
 
   const handleExport = async () => {
